@@ -20,8 +20,10 @@ export const useGeneralForm = ({ setSubmitDataStore }) => {
     })
 
     const setInitialData = settings => {
+        console.log('get initial data', { settings })
         setFields(settings)
-        setDisableSave(true)
+        //setDisableSave(true)
+        setDisableSave(false)
     }
 
     const onChange = e => {
@@ -91,7 +93,8 @@ export const useGeneralForm = ({ setSubmitDataStore }) => {
      * Checks if sms number or confirmation number is valid
      */
     const validatePhoneNumber = e => {
-        const { name } = e.target
+        //const { name } = e.target
+        const { name } = e
 
         if (![null, '', false].includes(fields[name])) {
             const validInput = validateNumber(fields[name])
@@ -115,7 +118,8 @@ export const useGeneralForm = ({ setSubmitDataStore }) => {
         disableSave,
         setDisableSave,
         handleEncryptDialog,
-        getInput: name => ({
+        setFields,
+        /*getInput: name => ({
             name,
             value: fields[name],
             disabled: fields.disableAll,
@@ -134,11 +138,30 @@ export const useGeneralForm = ({ setSubmitDataStore }) => {
             value: fields[name],
             disabled: fields.disableAll,
             onChange,
-        }),
-        getCheckbox: name => ({
+        }),*/
+        getCheckbox: (name, hasChanged) => ({
             name,
             checked: fields[name],
             onChange: handleEncryptDialog.onChange,
+            disabled: fields.disableAll,
+        }),
+        getPhoneNumber: name => ({
+            name,
+            value: fields[name],
+            // error: errorNumber[name],
+            disabled: fields.disableAll,
+            initialValue: fields[name],
+        }),
+        getInputNumber: name => ({
+            name,
+            value: fields[name],
+            disabled: fields.disableAll,
+            initialValue: fields[name],
+        }),
+        getSelect: name => ({
+            name,
+            value: fields[name],
+            initialValue: fields[name],
             disabled: fields.disableAll,
         }),
     }

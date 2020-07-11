@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { apiUpdateDataStore } from '../apiUpdateDataStore'
 
 export const useSaveGeneralSettings = ({ form, setSubmitDataStore }) => {
-    const { fields, setDisableSave } = form
+    const { fields, setFields, setDisableSave } = form
     const [openDialog, setOpenDialog] = useState({
         saveData: false,
         disableSettings: false,
@@ -38,7 +38,7 @@ export const useSaveGeneralSettings = ({ form, setSubmitDataStore }) => {
         const androidData = {
             metadataSync: fields.metadataSync,
             dataSync: fields.dataSync,
-            reservedValues: fields.reservedValues,
+            reservedValues: parseInt(fields.reservedValues),
             encryptDB: fields.encryptDB,
             lastUpdated: new Date().toJSON(),
         }
@@ -56,7 +56,9 @@ export const useSaveGeneralSettings = ({ form, setSubmitDataStore }) => {
 
     return {
         handleSaveDataDialog: {
-            open: () => {
+            open: data => {
+                console.log({ data })
+                setFields({ ...data, ...fields })
                 setOpenDialog({
                     ...openDialog,
                     saveData: true,
@@ -74,7 +76,8 @@ export const useSaveGeneralSettings = ({ form, setSubmitDataStore }) => {
                     ...openDialog,
                     saveData: false,
                 })
-                setDisableSave(true)
+                //setDisableSave(true)
+                //setDisableSave(false)
             },
         },
         setOpenDialog,
